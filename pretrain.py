@@ -229,8 +229,8 @@ class Workspace:
             torch.save(payload, f)
 
 
-@hydra.main(config_path='.', config_name='pretrain')
-def main(cfg):
+# @hydra.main(config_path='.', config_name='pretrain')
+def main(cfg, savedir):
     from pretrain import Workspace as W
     root_dir = Path.cwd()
     workspace = W(cfg)

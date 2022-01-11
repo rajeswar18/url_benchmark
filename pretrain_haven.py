@@ -234,15 +234,15 @@ class Workspace:
         with snapshot_load.open('wb') as f_load:
             torch.save(payload, f_load)
 
-    def load_snapshot(self, save_dir):
-        # snapshot_base_dir = Path(self.cfg.snapshot_base_dir)
-        # domain, _ = self.cfg.task.split('_', 1)
-        # snapshot_dir = snapshot_base_dir / self.cfg.obs_type / domain / self.cfg.agent.name
-        model_path = os.path.join(savedir, "snapshot.pt")
+    def load_snapshot(self, savedir):
+        snapshot_dir = self.work_dir / Path(self.cfg.snapshot_dir)
+        # snapshot_dir.mkdir(exist_ok=True, parents=True)
+        # snapshot = snapshot_dir / f'snapshot_{self.global_frame}.pt'
+        snapshot_load = snapshot_dir / f'snapshot.pt'
         score_list_path = os.path.join(savedir, "score_list.pkl")
-        print(f'resuming: {model_path}')
+        print(f'resuming: {snapshot_load}')
         def try_load(seed):
-            snapshot = model_path
+            snapshot = snapshot_load
             if not snapshot.exists():
                 return None
             with snapshot.open('rb') as f:

@@ -14,9 +14,9 @@ import exp_configs
 import time
 import numpy as np
 
-from src import models
-from src import datasets
-from src import utils as ut
+# from src import models
+# from src import datasets
+# from src import utils as ut
 from pretrain import main
 
 import argparse
@@ -26,6 +26,7 @@ from torch.utils.data.sampler import RandomSampler
 from torch.backends import cudnn
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
+from bunch import Bunch
 
 cudnn.benchmark = True
 
@@ -36,7 +37,8 @@ def trainval(exp_dict, savedir, args):
     savedir: the directory where the experiment will be saved
     args: arguments passed through the command line
     """
-    main(exp_dict, savedir)
+    cfg = Bunch(exp_dict)
+    main(cfg, savedir)
 
     print("Experiment completed")
 
@@ -52,7 +54,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "-sb",
         "--savedir_base",
-        default=None,
+        default="",
+        type=str,
         help="Define the base directory where the experiments will be saved.",
     )
     parser.add_argument(
@@ -86,6 +89,7 @@ if __name__ == "__main__":
         exp_groups=exp_configs.EXP_GROUPS,
         job_config=job_configs.JOB_CONFIG,
         python_binary_path=args.python_binary_path,
+        savedir_base=args.savedir_base,
         use_threads=True,
         args=args,
     )
