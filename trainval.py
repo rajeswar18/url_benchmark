@@ -1,7 +1,9 @@
+import sys
 from haven import haven_chk as hc
 from haven import haven_results as hr
 from haven import haven_wizard as hw
 from haven import haven_utils as hu
+import hydra
 import torch
 import torchvision
 import tqdm
@@ -27,9 +29,15 @@ from torch.backends import cudnn
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
 from bunch import Bunch
-
+from copy import deepcopy
 cudnn.benchmark = True
+import pickle as pkl
 
+
+@hydra.main(config_path='.', config_name='pretrain')
+def fun(cfg):
+    global config
+    config = cfg
 
 def trainval(exp_dict, savedir, args):
     """
@@ -37,8 +45,11 @@ def trainval(exp_dict, savedir, args):
     savedir: the directory where the experiment will be saved
     args: arguments passed through the command line
     """
-    cfg = Bunch(exp_dict)
-    main(cfg, savedir)
+    sys.argv=["pretrain.py", f"agent={exp_dict['agent_name']}", f"domain={exp_dict['domain']}"]
+    conf = fun()
+    # cfg.agent = Bunch(cfg.agent)
+    config.snapshot_dir = exp_dict["snapshot_dir"]
+    main(config, savedir)
 
     print("Experiment completed")
 
@@ -66,7 +77,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("-c", "--cuda", default=1, type=int)
     parser.add_argument("-j", "--job_scheduler", default=None, type=str)
-    parser.add_argument("-p", "--python_binary_path", default='/mnt/home/jaxvenv/bin/python')
+    parser.add_argument("-p", "--python_binary_path", default='/mnt/home/urlbenv/bin/python')
     parser.add_argument("-nw", "--num_workers", default=0, type=int)
     args, others = parser.parse_known_args()
 

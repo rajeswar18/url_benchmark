@@ -12,8 +12,16 @@
             "console": "integratedTerminal",
             "args": [
                 "-e", "pretrain",
+                "-r",
+                "1",
+                "-d",
+                "/mnt/public/datasets",
+                "-sb",
+                "/mnt/public/results/sai/urlb",
+                "-nw",
+                "8",
                 "-j", "0",
-                "-sb", "/tmp"
+                "-v", "iterative_results.ipynb"
             ]
         }
     ]

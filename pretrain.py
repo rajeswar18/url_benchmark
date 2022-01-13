@@ -6,7 +6,9 @@ import os
 
 os.environ['MKL_SERVICE_FORCE_INTEL'] = '1'
 os.environ['MUJOCO_GL'] = 'egl'
-
+# import os
+# os.environ['PYOPENGL_PLATFORM'] = 'osmesa'
+# os.environ['MUJOCO_GL']='osmesa'
 from pathlib import Path
 
 import hydra

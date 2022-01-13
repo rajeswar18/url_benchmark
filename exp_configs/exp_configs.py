@@ -1,11 +1,21 @@
 from haven import haven_utils as hu
 obs_type = 'states'
 domain = 'walker'
-agent_name = 'ddpg'
+agent_name = ['icm', 'disagreement']
 seed = 1
 EXP_GROUPS = {
 
     "pretrain":  {
+        "agent_name": agent_name,
+        "domain": domain,
+        "obs_type": obs_type, # [states, pixels]
+        "snapshot_dir": f'/mnt/colab_public/projects/sai/url_benchmark/pretrained/{obs_type}/{domain}/{agent_name}/{seed}',
+        # replay buffer
+        "seed": seed    
+    },
+
+    
+    "finetune":  {
         "agent": agent_name,
         "domain": domain,
         "reward_free": False,
